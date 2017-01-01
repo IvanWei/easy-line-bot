@@ -1,0 +1,6 @@
+--timeout 500000
+--require should
+--require ./config/babelPlugins
+--reporter spec
+--ui bdd
+--recursive ./test/config/app.js ./test/service/*.spec.js

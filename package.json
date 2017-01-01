@@ -1,0 +1,51 @@
+{
+  "name": "easy-line-bot",
+  "version": "0.0.0",
+  "description": "line bot by Koa",
+  "main": "app.js",
+  "scripts": {
+    "test": "env NODE_ENV=test ./node_modules/mocha/bin/mocha",
+    "dev": "./node_modules/nodemon/bin/nodemon.js app.js",
+    "start": "npm i;env NODE_ENV=production node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvanWei/easy-line-bot.git"
+  },
+  "keywords": [
+    "line",
+    "bot",
+    "chart"
+  ],
+  "author": {
+    "name": "Ivanwei",
+    "email": "scorpionseed@gmail.com",
+    "url": "https://blog.ivanwei.co"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IvanWei/easy-line-bot/issues"
+  },
+  "homepage": "https://github.com/IvanWei/easy-line-bot#readme",
+  "engines": {
+    "node": "6"
+  },
+  "dependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
+    "babel-register": "^6.18.0",
+    "koa": "^2.0.0",
+    "koa-bodyparser": "^3.2.0",
+    "koa-logger": "^2.0.0",
+    "koa-router": "^7.0.1",
+    "koa-send": "^3.2.0",
+    "koa-static": "^3.0.0",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1"
+  },
+  "devDependencies": {
+    "mocha": "^3.1.0",
+    "nodemon": "^1.10.2",
+    "should": "^11.1.0",
+    "supertest": "^2.0.0"
+  }
+}
