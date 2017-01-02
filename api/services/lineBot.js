@@ -8,7 +8,7 @@ module.exports = {
     const channelAccessToken = process.env.lineChannelAccessToken || '';
 
     const xLineSignature = requestObj.headers['x-line-signature'];
-    const requestBody = requestObj.body || '';
+    const requestBody = requestObj.body || {};
 
     const hash = crypto.createHmac('sha256', channelSecret)
                 .update(Buffer.from(JSON.stringify(requestBody), 'utf8'))
