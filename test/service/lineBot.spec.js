@@ -10,7 +10,7 @@ describe('Test about Line Bot\'s Services', () => {
     };
 
     it('[Scusses] ', (done) => {
-      const token = '';
+      const token = 'gU/Q11B0ILIzVJ/FImlyJtHxlsMkOGk42eP1mT+rjp3ovVHlFsoXvvhkTrYJjN4Ug9/Mh9osANcYUiKhh+/fl+0dhRH7dYli5i7XIIPpnijj5gNT5M890B3h46TyEESll1I1HqqF6+I+FUS4SVsfDAdB04t89/1O/w1cDnyilFU=';
       const result = lineBot.authentication(requestObjWithScusses);
 
       result.should.be.an.Object().and.have.keys('hash', 'token', 'isValid');

@@ -2,7 +2,7 @@
 
 # Easy Line Bot
 
-Koajs + Babel + Line Messging API
+Koajs (Node.js v6 or newest) + Babel + Line Messging API
 
 ### Author
 
