@@ -1,68 +1,41 @@
-const lineBot = require('../../api/services/lineBot');
+const LineBot = require('../../api/services/LineBot');
 
 describe('Test about Line Bot\'s Services', () => {
   describe('Authentication', () => {
-    const requestObjWithScusses = {
-      headers: {
-        'x-line-signature': null
-      },
-      body: {}
-    };
 
-    const requestObjWithFailed = {
-      headers: {
-        'x-line-signature': null
-      },
-      body: {}
-    };
-
-    it('[Scusses] ', (done) => {
-      const token = '';
-      const result = lineBot.authentication(requestObjWithScusses);
-
-      result.should.be.an.Object().and.have.keys('hash', 'token', 'isValid');
-      result.hash.should.be.String().and.not.equal(requestObjWithScusses.headers['x-line-signature']);
-      result.hash.length.should.be.equal(44);
-      result.token.should.be.String().and.equal(token);
-      result.isValid.should.be.Boolean().and.equal(true);
-      return done();
+    it('[Check Type] ', (done) => {
+      LineBot.authentication({headers: {}})
+      .then((result) => {
+        result.should.be.an.Object().and.have.keys('hash', 'token', 'isValid');
+        result.hash.should.be.String();
+        result.hash.length.should.be.equal(44);
+        result.token.should.be.String();
+        result.isValid.should.be.Boolean();
+        return done();
+      })
+      .catch((err) => {
+        return done(err);
+      });
     });
 
-    it('[Failed]', (done) => {
-      const token = 'fake key';
-      const result = lineBot.authentication(requestObjWithFailed);
-
-      result.should.be.an.Object().and.have.keys('hash', 'token', 'isValid');
-      result.hash.should.be.String().and.not.equal(requestObjWithFailed.headers['x-line-signature']);
-      result.hash.length.should.be.equal(44);
-      result.token.should.be.String().and.not.equal(token);
-      result.isValid.should.be.Boolean().and.equal(false);
-      return done();
-    });
   });
 
-  describe.skip('Reply', () => {
-    const requestWithScusses = {body: { events: {}}};
+  describe('Reply', () => {
+    const testRequestOnLineWebhooks = {body: { events: [{"replyToken":"00000000000000000000000000000000","type":"message","timestamp":1451617200000,"source":{"type":"user","userId":"Udeadbeefdeadbeefdeadbeefdeadbeef"},"message":{"id":"100001","type":"text","text":"Hello,world"}},{"replyToken":"ffffffffffffffffffffffffffffffff","type":"message","timestamp":1451617210000,"source":{"type":"user","userId":"Udeadbeefdeadbeefdeadbeefdeadbeef"},"message":{"id":"100002","type":"sticker","packageId":"1","stickerId":"1"}}]
+}};
     const requestWithFailed = {body: { events: {}}};
 
-    it('[Scusses] ', async (done) => {
-      try {
-        lineBot.reply();
-        return done();
-
-      } catch (err) {
-        return done(err);
-      }
+    it('[Sample] ', (done) => {
+        LineBot.reply({}, testRequestOnLineWebhooks.body.events)
+        .then((result) => {
+          result.should.be.an.Array();
+          result.length.should.be.equal(0);
+          return done();
+        })
+        .catch((err) => {
+          return done(err.message);
+        });
     });
 
-    // it('[Failed]', (done) => {
-    //   try {
-    //     await lineBot.reply();
-    //     return done();
-
-    //   } catch (err) {
-    //     return done(err);
-    //   }
-    // });
   });
 });

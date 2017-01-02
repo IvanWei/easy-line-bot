@@ -1,12 +1,15 @@
 {
   "name": "easy-line-bot",
-  "version": "0.0.0",
-  "description": "line bot by Koa",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Line Bot by Koa",
   "main": "app.js",
   "scripts": {
-    "test": "env NODE_ENV=test ./node_modules/mocha/bin/mocha",
+    "test": "npm run eslint;env NODE_ENV=test ./node_modules/mocha/bin/mocha",
     "dev": "./node_modules/nodemon/bin/nodemon.js app.js",
-    "start": "npm i;env NODE_ENV=production node app.js"
+    "start": "npm i;env NODE_ENV=production node app.js",
+    "eslint": "./node_modules/.bin/eslint api/** config/**",
+    "eslint-fix": "./node_modules/.bin/eslint --fix api/** config/**"
   },
   "repository": {
     "type": "git",
@@ -15,7 +18,8 @@
   "keywords": [
     "line",
     "bot",
-    "chart"
+    "chat",
+    "koa"
   ],
   "author": {
     "name": "Ivanwei",
@@ -28,24 +32,29 @@
   },
   "homepage": "https://github.com/IvanWei/easy-line-bot#readme",
   "engines": {
-    "node": "6"
+    "node": ">=6"
   },
   "dependencies": {
-    "babel-plugin-transform-async-to-generator": "^6.16.0",
-    "babel-register": "^6.18.0",
     "koa": "^2.0.0",
     "koa-bodyparser": "^3.2.0",
-    "koa-logger": "^2.0.0",
     "koa-router": "^7.0.1",
-    "koa-send": "^3.2.0",
+    "koa-send": "^3.3.0",
     "koa-static": "^3.0.0",
+    "mysql": "^2.13.0",
     "request": "^2.79.0",
-    "request-promise": "^4.1.1"
+    "request-promise": "^4.1.1",
+    "sequelize": "^3.30.0"
   },
   "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.22.0",
+    "babel-register": "^6.22.0",
+    "eslint": "^3.13.0",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "koa-logger": "^2.0.0",
     "mocha": "^3.1.0",
     "nodemon": "^1.10.2",
-    "should": "^11.1.0",
+    "should": "^11.2.0",
     "supertest": "^2.0.0"
   }
 }

@@ -1,39 +1,36 @@
-'use strict'
-
 const http = require('http');
-const PORT = process.env.PORT || 8080;
-
-const crypto = require('crypto');
-
-const secret = 'abcdefg';
-
-const koa = require('koa');
-const logger = require('koa-logger');
+const Koa = require('koa');
 const bodyparser = require('koa-bodyparser');
-const koaRouter = require('koa-router');
+const Router = require('koa-router');
+const fs = require('fs');
+const path = require('path');
 
-global.app = new koa();
-
+global.app = new Koa();
 global.request = require('supertest').agent(app.listen());
+global.config = require(`../../config/env/${process.env.NODE_ENV || 'development'}`);
+const port = config.port;
+const router = new Router();
+const apiFolderPath = path.join(__dirname, '../../api/controllers/');
+const filenames = fs.readdirSync(apiFolderPath);
 
-const routing = require('../../api/controllers/webhooks').routing;
-const router = routing(koaRouter());
+filenames.forEach((filename) => {
+  require(`${apiFolderPath}${filename}`)(router);
+});
 
-before((done) => {
-  if (app.env !== 'test') {
-    const errorInfo = new Error('NODE_ENV need to use test mode.');
-    return done(errorInfo);
+app
+.use(bodyparser())
+.use(router.routes()) // Assigns routes.
+.use(router.allowedMethods());
+
+if (config.logger) {
+  const logger = require('koa-logger');
+
+  app.use(logger());
+}
+
+http.createServer(app.callback())
+.listen(port, () => {
+  if (config.env !== 'production') {
+    console.log(`App listening on port ${port} !`);
   }
-
-  app
-    .use(logger())
-    .use(bodyparser())
-    .use(router.routes()) // Assigns routes.
-    .use(router.allowedMethods());
-
-  http.createServer(app.callback())
-  .listen(PORT, () => {
-    console.log('App listening on port ' + PORT + '!'); // Server 啟動後吐回目前的 PORT 碼
-    return done();
-  });
 });

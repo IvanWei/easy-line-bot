@@ -1,0 +1,17 @@
+{
+  "extends": "airbnb-base",
+  "plugins": [
+      "import"
+  ],
+  "rules": {
+    "no-param-reassign": ["error", { "props": false }],
+    "no-console": "off",
+    "global-require": "off",
+    "import/no-dynamic-require": "off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": false, "peerDependencies": false}],
+    "no-undef": "off"
+  },
+  "env": {
+    "node": true
+  }
+}

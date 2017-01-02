@@ -1,4 +1,4 @@
-class ExtendableError extends Error {
+const ExtendableError = class ExtendableError extends Error {
   constructor(message, httpStatus) {
     super(message);
     this.name = this.constructor.name;
