@@ -1,7 +1,8 @@
 {
   "name": "easy-line-bot",
   "version": "0.0.0",
-  "description": "line bot by Koa",
+  "private": false,
+  "description": "Line Bot by Koa",
   "main": "app.js",
   "scripts": {
     "test": "env NODE_ENV=test ./node_modules/mocha/bin/mocha",
@@ -15,7 +16,8 @@
   "keywords": [
     "line",
     "bot",
-    "chart"
+    "chat",
+    "koa"
   ],
   "author": {
     "name": "Ivanwei",
@@ -28,7 +30,7 @@
   },
   "homepage": "https://github.com/IvanWei/easy-line-bot#readme",
   "engines": {
-    "node": "6"
+    "node": ">=6"
   },
   "dependencies": {
     "babel-plugin-transform-async-to-generator": "^6.16.0",
