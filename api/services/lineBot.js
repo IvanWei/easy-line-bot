@@ -62,8 +62,6 @@ module.exports = {
       return originData;
     }, []);
 
-    console.log('replyMessages:: ', JSON.stringify(replyMessages))
-
     try {
       return await Promise.all(replyMessages);
 

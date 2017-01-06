@@ -22,16 +22,6 @@ if (app.env === 'test') {
 app
   .use(logger())
   .use(bodyparser())
-  .use(async (ctx, next) => {
-    try {
-      await next();
-
-    } catch (err) {
-      ctx.body = err.message;
-      ctx.status = 500;
-
-    }
-  })
   .use(router.routes()) // Assigns routes.
   .use(router.allowedMethods());
 
