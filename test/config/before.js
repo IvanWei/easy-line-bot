@@ -1,23 +1,19 @@
 'use strict'
 
 const http = require('http');
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || Math.floor(Math.random() * (55536) + 10000);
 
 const crypto = require('crypto');
-
-const secret = 'abcdefg';
 
 const koa = require('koa');
 const logger = require('koa-logger');
 const bodyparser = require('koa-bodyparser');
 const koaRouter = require('koa-router');
-
-global.app = new koa();
-
-global.request = require('supertest').agent(app.listen());
-
 const routing = require('../../api/controllers/webhooks').routing;
 const router = routing(koaRouter());
+
+global.app = new koa();
+global.request = require('supertest').agent(app.listen());
 
 before((done) => {
   if (app.env !== 'test') {
