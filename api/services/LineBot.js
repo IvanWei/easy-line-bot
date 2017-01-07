@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const LineRequest = require('../services/LineRequest').request;
 
 module.exports = {
-  authentication: (requestObj) => {
+  authentication: async (requestObj) => {
     const channelSecret = process.env.lineChannelSecret || '';
     const channelAccessToken = process.env.lineChannelAccessToken || '';
 
@@ -25,7 +25,6 @@ module.exports = {
     if (!checkResult.isPass) {
       return Promise.reject(checkResult);
     }
-
 
     const replyMessages = requestEvents.reduce((originData, currentReplyParam) => {
       if (LineRequest.isFakeReply(currentReplyParam.replyToken)) {

@@ -2,7 +2,7 @@ const request = require('request-promise');
 const CustomError = require('../../config/CustomError');
 
 const self = exports.request = {
-  isFakeReply: async (replyToken) => {
+  isFakeReply: (replyToken) => {
     // This tokens are fake from Test of Line Webhooks.
     const isFakeReply = !!(replyToken === '00000000000000000000000000000000' || replyToken === 'ffffffffffffffffffffffffffffffff');
     return isFakeReply;
@@ -20,7 +20,24 @@ const self = exports.request = {
 
     return result;
   },
-  createReplyMessageContents: async (messageParam) => {
+  createReplyRequest: (auth, replyMessage) => {
+    const options = {
+      method: 'POST',
+      uri: 'https://api.line.me/v2/bot/message/reply',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${auth.token}`,
+      },
+      body: {
+        replyToken: replyMessage.replyToken,
+        messages: self.createReplyMessageContents(replyMessage.message),
+      },
+      json: true,
+    };
+
+    return request(options);
+  },
+  createReplyMessageContents: (messageParam) => {
     let content;
 
     switch (messageParam.type) {
@@ -131,22 +148,5 @@ const self = exports.request = {
         content = [];
     }
     return content;
-  },
-  createReplyRequest: async (auth, replyMessage) => {
-    const options = {
-      method: 'POST',
-      uri: 'https://api.line.me/v2/bot/message/reply',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${auth.token}`,
-      },
-      body: {
-        replyToken: replyMessage.replyToken,
-        messages: self.createReplyMessageContents(replyMessage.message),
-      },
-      json: true,
-    };
-
-    return request(options);
   },
 };
