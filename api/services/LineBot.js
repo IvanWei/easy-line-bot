@@ -1,7 +1,5 @@
 const crypto = require('crypto');
-const request = require('request-promise');
-const CustomError = require('../../config/CustomError');
-const LineRequest = require(`${__dirname}/LineRequest`).request;
+const LineRequest = require('../services/LineRequest').request;
 
 module.exports = {
   authentication: (requestObj) => {
@@ -16,30 +14,31 @@ module.exports = {
                 .digest('base64');
 
     return {
-      hash: hash,
+      hash,
       token: channelAccessToken,
       isValid: (hash === xLineSignature),
     };
   },
   reply: async (auth, requestEvents) => {
-    let replyMessages;
     const checkResult = LineRequest.checkRequestEventsCount(requestEvents);
 
-    if (!checkResult.isPass)
+    if (!checkResult.isPass) {
       return Promise.reject(checkResult);
+    }
 
 
-    replyMessages = requestEvents.reduce((originData, currentReplyParam) => {
-      if ( LineRequest.isFakeReply(currentReplyParam.replyToken) )
+    const replyMessages = requestEvents.reduce((originData, currentReplyParam) => {
+      if (LineRequest.isFakeReply(currentReplyParam.replyToken)) {
         return originData;
+      }
 
       const replyType = currentReplyParam.type;
 
       switch (replyType) {
         case 'message':
-            originData.push(LineRequest.createReplyRequest(auth, currentReplyParam ));
-
+          originData.push(LineRequest.createReplyRequest(auth, currentReplyParam));
           break;
+        default:
         // case 'follow':
 
         //   break;
@@ -65,7 +64,6 @@ module.exports = {
 
     try {
       return await Promise.all(replyMessages);
-
     } catch (e) {
       return e;
     }

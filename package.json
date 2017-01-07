@@ -7,7 +7,9 @@
   "scripts": {
     "test": "env NODE_ENV=test ./node_modules/mocha/bin/mocha",
     "dev": "./node_modules/nodemon/bin/nodemon.js app.js",
-    "start": "npm i;env NODE_ENV=production node app.js"
+    "start": "npm i;env NODE_ENV=production node app.js",
+    "eslint": "./node_modules/.bin/eslint api/** config/**",
+    "eslint-fix": "./node_modules/.bin/eslint --fix api/services/LineRequest.js"
   },
   "repository": {
     "type": "git",
@@ -45,6 +47,9 @@
     "request-promise": "^4.1.1"
   },
   "devDependencies": {
+    "eslint": "^3.13.0",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "eslint-plugin-import": "^2.2.0",
     "mocha": "^3.1.0",
     "nodemon": "^1.10.2",
     "should": "^11.1.0",
