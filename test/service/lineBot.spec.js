@@ -4,14 +4,18 @@ describe('Test about Line Bot\'s Services', () => {
   describe('Authentication', () => {
 
     it('[Check Type] ', (done) => {
-      const result = LineBot.authentication({headers: {}});
-
-      result.should.be.an.Object().and.have.keys('hash', 'token', 'isValid');
-      result.hash.should.be.String();
-      result.hash.length.should.be.equal(44);
-      result.token.should.be.String();
-      result.isValid.should.be.Boolean();
-      return done();
+      LineBot.authentication({headers: {}})
+      .then((result) => {
+        result.should.be.an.Object().and.have.keys('hash', 'token', 'isValid');
+        result.hash.should.be.String();
+        result.hash.length.should.be.equal(44);
+        result.token.should.be.String();
+        result.isValid.should.be.Boolean();
+        return done();
+      })
+      .catch((err) => {
+        return done(err);
+      });
     });
 
   });
