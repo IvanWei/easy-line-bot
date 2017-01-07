@@ -7,7 +7,7 @@ exports.routing = (router) => {
   })
   .post('/webhooks', async (ctx, next) => {
     const koaRequest = ctx.request;
-    const auth = LineBot.authentication(koaRequest);
+    const auth = await LineBot.authentication(koaRequest);
 
     if (auth.isValid) {
       ctx.status = 200;
@@ -15,7 +15,7 @@ exports.routing = (router) => {
       const requestEvents = koaRequest.body.events;
 
       try {
-        await LineBot.reply(auth, requestEvents);
+        LineBot.reply(auth, requestEvents);
         await next();
       } catch (e) {
         ctx.body = e.message;
