@@ -1,10 +1,10 @@
-const lineBot = require('../../api/services/lineBot');
+const LineBot = require('../../api/services/LineBot');
 
 describe('Test about Line Bot\'s Services', () => {
   describe('Authentication', () => {
 
     it('[Check Type] ', (done) => {
-      const result = lineBot.authentication({headers: {}});
+      const result = LineBot.authentication({headers: {}});
 
       result.should.be.an.Object().and.have.keys('hash', 'token', 'isValid');
       result.hash.should.be.String();
@@ -22,7 +22,7 @@ describe('Test about Line Bot\'s Services', () => {
     const requestWithFailed = {body: { events: {}}};
 
     it('[Sample] ', (done) => {
-        lineBot.reply({}, testRequestOnLineWebhooks.body.events)
+        LineBot.reply({}, testRequestOnLineWebhooks.body.events)
         .then((result) => {
           result.should.be.an.Array();
           result.length.should.be.equal(0);
