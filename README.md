@@ -2,6 +2,8 @@
 
 # Easy Line Bot
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/IvanWei/easy-line-bot.svg)](https://greenkeeper.io/)
+
 Koajs (Node.js v6 or newest) + Babel + Line Messging API
 
 ### Author
