@@ -1,28 +1,36 @@
 const http = require('http');
 const Koa = require('koa');
-const logger = require('koa-logger');
 const bodyparser = require('koa-bodyparser');
-const koaRouter = require('koa-router');
-const routing = require('../api/controllers/webhooks').routing;
+const Router = require('koa-router');
+const fs = require('fs');
+const path = require('path');
 
-const PORT = process.env.PORT || 3000;
+const config = require(`./env/${process.env.NODE_ENV || 'development'}`);
 const app = new Koa();
-const router = routing(koaRouter());
+const port = config.port;
+const router = new Router();
+const apiFolderPath = path.join(__dirname, '../api/controllers/');
+const filenames = fs.readdirSync(apiFolderPath);
 
-if (app.env === 'test') {
-  const errorInfo = new Error('NODE_ENV doesn\'t use test mode.');
-  console.error(errorInfo);
-  process.exit();
-}
+filenames.forEach((filename) => {
+  require(`${apiFolderPath}${filename}`)(router);
+});
 
 app
-  .use(logger())
-  .use(bodyparser())
-  .use(router.routes()) // Assigns routes.
-  .use(router.allowedMethods());
+.use(bodyparser())
+.use(router.routes()) // Assigns routes.
+.use(router.allowedMethods());
+
+if (config.logger) {
+  const logger = require('koa-logger');
+
+  app.use(logger());
+}
 
 
 http.createServer(app.callback())
-.listen(PORT, () => {
-  console.log(`App listening on port ${PORT} !`);
+.listen(port, () => {
+  if (config.env !== 'production') {
+    console.log(`App listening on port ${port} !`);
+  }
 });

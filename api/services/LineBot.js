@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const LineRequest = require('../services/LineRequest').request;
+const LineRequest = require('../services/LineRequest');
 
 module.exports = {
   authentication: async (requestObj) => {

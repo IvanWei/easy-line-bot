@@ -1,7 +1,7 @@
 const request = require('request-promise');
-const CustomError = require('../../config/CustomError');
+const CustomError = require('../../config/customError');
 
-const self = exports.request = {
+const self = module.exports = {
   isFakeReply: (replyToken) => {
     // This tokens are fake from Test of Line Webhooks.
     const isFakeReply = !!(replyToken === '00000000000000000000000000000000' || replyToken === 'ffffffffffffffffffffffffffffffff');

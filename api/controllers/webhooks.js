@@ -1,10 +1,7 @@
 const LineBot = require('../services/LineBot');
 
-exports.routing = (router) => {
+module.exports = (router) => {
   router
-  .get('/', async (ctx) => {
-    ctx.body = 'It works.';
-  })
   .post('/webhooks', async (ctx, next) => {
     const koaRequest = ctx.request;
     const auth = await LineBot.authentication(koaRequest);
@@ -26,6 +23,4 @@ exports.routing = (router) => {
       ctx.status = 401;
     }
   });
-
-  return router;
 };
