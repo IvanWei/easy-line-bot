@@ -5,7 +5,6 @@ exports.routing = (router) => {
   router
   .get('/', async (ctx, next) => {
     ctx.body = `It works.`;
-    // ctx.redirect('https://blog.ivanwei.co');
   })
   .post('/webhooks', async (ctx, next) => {
     const koaRequest = ctx.request;
