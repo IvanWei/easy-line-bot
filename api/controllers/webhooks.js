@@ -7,11 +7,11 @@ exports.routing = (router) => {
     ctx.body = `It works.`;
   })
   .post('/webhooks', async (ctx, next) => {
-    const koaRequest = ctx.request;
-    const auth = lineBot.authentication(koaRequest);
+    const req = ctx.request;
+    const auth = lineBot.authentication(req);
 
     if (auth.isValid) {
-      const requestEvents = koaRequest.body.events;
+      const requestEvents = req.body.events;
 
       ctx.status = 200;
 

@@ -1,18 +1,20 @@
 const crypto = require('crypto');
-const request = require('request-promise');
+const rp = require('request-promise');
 const CustomError = require('../../config/CustomError');
 
 module.exports = {
-  authentication: (requestObj) => {
+  authentication: (req) => {
     const channelSecret = process.env.lineChannelSecret || '';
     const channelAccessToken = process.env.lineChannelAccessToken || '';
 
-    const xLineSignature = requestObj.headers['x-line-signature'];
-    const requestBody = requestObj.body || '';
+    const xLineSignature = req.get('X-Line-Signature');
+    const reqBody = req.body || '';
 
     const hash = crypto.createHmac('sha256', channelSecret)
-                .update(Buffer.from(JSON.stringify(requestBody), 'utf8'))
+                .update(Buffer.from(JSON.stringify(reqBody)))
                 .digest('base64');
+    console.log('xLineSignatureA:: ', xLineSignature)
+    console.log('xLineSignatureB:: ', hash)
 
     return {
       hash: hash,
@@ -33,6 +35,7 @@ module.exports = {
         return originData;
 
       const replyType = currentReplyParam.type;
+      console.log('replyType:: ', replyType)
 
       switch (replyType) {
         case 'message':
@@ -62,10 +65,8 @@ module.exports = {
       return originData;
     }, []);
 
-    console.log('replyMessages:: ', JSON.stringify(replyMessages))
-
     try {
-      return await Promise.all(replyMessages);
+      await Promise.all(replyMessages);
 
     } catch (e) {
       return e;
@@ -206,5 +207,5 @@ function CREATE_REPLY_REQUEST_OPTIONS (auth, replyMessage) {
     json: true,
   }
 
-  return request(options);
+  return rp(options);
 }
